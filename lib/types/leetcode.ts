@@ -7,7 +7,16 @@ export interface LeetCodeUserProfile {
         count: number;
         submissions: number;
       }[];
+      totalSubmissionNum: {
+        difficulty: string;
+        count: number;
+        submissions: number;
+      }[];
     };
+    languageProblemCount?: Array<{
+      languageName: string;
+      problemsSolved: number;
+    }>;
     profile: {
       ranking: number;
       reputation: number;
@@ -29,19 +38,12 @@ export interface LeetCodeContestInfo {
   };
 }
 
-interface CalendarBadge {
-  id: string;
-  name: string;
-  icon: string;
-}
-
 export interface LeetCodeCalendar {
   matchedUser: {
     userCalendar: {
       activeYears: number[];
       streak: number;
       totalActiveDays: number;
-      dccBadges: CalendarBadge[];
       submissionCalendar: string;
     };
   };

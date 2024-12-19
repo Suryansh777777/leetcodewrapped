@@ -21,6 +21,10 @@ const GET_USER_PROFILE = `
           submissions
         }
       }
+      languageProblemCount {
+        languageName
+        problemsSolved
+      }
       profile {
         ranking
         reputation
@@ -63,20 +67,22 @@ export async function GET(
   { params }: { params: { username: string } }
 ) {
   try {
-    if (!params?.username) {
+    const username = (await params).username;
+
+    if (!username) {
       return NextResponse.json(
         { error: 'Username is required' },
         { status: 400 }
       );
     }
 
-    const username = params.username;
-
     const [profileData, contestData, calendarData] = await Promise.all([
       client.request<LeetCodeUserProfile>(GET_USER_PROFILE, { username }),
       client.request<LeetCodeContestInfo>(GET_CONTEST_INFO, { username }),
       client.request<LeetCodeCalendar>(GET_CALENDAR_INFO, { username })
     ]);
+
+    console.log('Language Data:', profileData.matchedUser.languageProblemCount);
 
     return NextResponse.json({
       profile: profileData.matchedUser,
